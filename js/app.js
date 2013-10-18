@@ -48,6 +48,7 @@ for (i = 0, len = monthNames.length - 1; i <= len; i++) {
 
     tempEl.text = monthNames[i];
     tempEl.value = monthNames[i];
+    tempEl.id = monthNames[i];
 
     // append child to select#month
     monthSelect.appendChild(tempEl);
@@ -66,6 +67,7 @@ for (j = 1; j <= 31; j++) {
 
     tempEl.text = dayAsString;
     tempEl.value = 'day-' + dayAsString;
+    tempEl.id = 'day-' + dayAsString;
 
     daySelect.appendChild(tempEl);
 }
@@ -84,6 +86,20 @@ for (k = thisYear, limit = thisYear - 100; k > limit; k--) {
     tempEl.value = 'year-' + k;
 
     yearSelect.appendChild(tempEl);
-    counter ++;
+    counter++;
 }
 console.log(counter);
+
+// Set it to current month
+curMonth = monthNames[now.getMonth()];
+selectCurMonth = document.getElementById(curMonth);
+selectCurMonth.selected=true;
+console.log(curMonth);
+
+// Set it to current day
+curDay = now.getDay();
+curDayPadded = ('0' + curDay).slice(-2);
+console.log(curDayPadded);
+selectCurDay = document.getElementById('day-' + curDayPadded);
+selectCurDay.selected=true;
+
