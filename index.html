@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Day to Day</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen">
-</head>
-<body>
-    <h1>Enter a date and find the day</h1>
-    <select name="month" id="month">
-    </select>
-    <select name="day" id="day">
-    </select>
-    <select name="year" id="year">
-    </select>
-    <script src="js/app.js"></script>
-</body>
+    <head>
+        <title>Day to Day</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/main.css" type="text/css" media="screen">
+    </head>
+    <body>
+        <h1>Enter a date and find the day</h1>
+        <form>
+            <select name="month" id="month">
+            </select>
+            <select name="day" id="day">
+            </select>
+            <select name="year" id="year">
+            </select> 
+            <button id="checkDate">Look Up Date</button>
+        </form>
+        <div id="messageArea"></div>
+
+        <script src="js/app.js"></script>
+    </body>
 </html>
