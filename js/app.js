@@ -5,11 +5,13 @@
 // TODO: wrap everything in an iife
 "use strict";
 
+var now = new Date();
+console.log(now);
+
 function assembleSelectBoxes() {
     var monthSelect,
         daySelect,
         yearSelect,
-        now,
         monthNames = [],
         len,
         tempEl,
@@ -41,9 +43,6 @@ function assembleSelectBoxes() {
     monthNames[9] = 'Oct';
     monthNames[10] = 'Nov';
     monthNames[11] = 'Dec';
-
-    now = new Date();
-    console.log(now);
 
     monthSelect = document.getElementById('month');
     daySelect = document.getElementById('day');
@@ -98,7 +97,7 @@ function assembleSelectBoxes() {
     // Set it to current month
     curMonth = monthNames[now.getMonth()];
     selectCurMonth = document.getElementById(curMonth);
-    selectCurMonth.selected=true;
+    selectCurMonth.selected = true;
     console.log(curMonth);
 
     // Set it to current day
@@ -106,31 +105,31 @@ function assembleSelectBoxes() {
     curDayPadded = ('0' + curDay).slice(-2);
     console.log(curDayPadded);
     selectCurDay = document.getElementById('day-' + curDayPadded);
-    selectCurDay.selected=true;
+    selectCurDay.selected = true;
 }
 
-function btnClick() {
-    var selectedMonth,
-        selectedDay,
-        selectedYear;
+function btnClick(selectedMonth, selectedDay, selectedYear) {
 
     // Get month, day, year
     selectedMonth = document.getElementById('month').value;
     selectedDay = document.getElementById('day').value;
     selectedYear = document.getElementById('year').value;
 
+    validateDate()
 }
 
-function validateDate(now, selectedMonth, selectedDay, selectedYear) {
+function validateDate(selectedMonth, selectedDay, selectedYear) {
     var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], // [1] will be modified below if it's a leap year
         daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         numOfMonths = 12,
         validYears = now.getYear() - 100,
-        isLeapYear = false,
         isYearValid = false,
         isDayValid = false,
         isMonthValid = false,
-        monthNamesFull =[];
+        theValidDate,
+        theWeekday,
+        theWeekdayToHuman,
+        monthNamesFull = [];
 
 
     // Assign full month names
@@ -153,20 +152,8 @@ function validateDate(now, selectedMonth, selectedDay, selectedYear) {
     }
 
     // If month is Feb, check if it's a leap year
-    // If you can divide a Gregorian year by 4, it’s a leap year, unless it’s divisible by 100. But it is a leap year if it’s divisible by 400.
-    if (selectedMonth === 'Feb') {
-        if (selectedYear % 4 === 0) {
-            isLeapYear === true;
-        }
-        if (selectedYear % 100 === 0) {
-            isLeapYear === false;
-        }
-        if (selectedYear % 400 === 0) {
-            isLeapYear === true;
-        }
-    }
 
-    if (isLeapYear === true) {
+    if (isLeapYear(selectedMonth, selectedYear)) {
         daysOfWeek[1] = 29;
     }
     
@@ -182,10 +169,12 @@ function validateDate(now, selectedMonth, selectedDay, selectedYear) {
     // If not valid, display message
     if ((isMonthValid === true) && (isDayValid === true) && (isYearValid === true)) {
         // Look up weekday
-        var theValidDate = new Date(selectedYear, selectedMonth, selectedDay);
-        // theValidDateToHuman = theValidDate.getMonth;
-        theWeekday = theValidDate.getDay();
-        theWeekdayToHuman = daysOfWeek[theWeekday];
+        theValidDate = selectedYear + ',' + selectedMonth + ',' + selectedDay;
+        console.log(theValidDate);
+
+        getWeekday(theValidDate);
+
+        // theWeekdayToHuman = daysOfWeek[theWeekday];
 
         document.getElementById('outputArea').innerHTML = '<p>' + theValidDate + ' was a ' + theWeekdayToHuman + '</p>';
 
@@ -196,9 +185,38 @@ function validateDate(now, selectedMonth, selectedDay, selectedYear) {
 
 }
 
+function getWeekday(dateString) {
+    var theWeekday,
+        theDate;
+
+    theDate = new Date(dateString);
+
+    theWeekday = theDate.getDay();
+    return theWeekday;
+}
+
+function isLeapYear(month, year) {
+    var result;
+
+    // If you can divide a Gregorian year by 4, it’s a leap year, unless it’s divisible by 100. But it is a leap year if it’s divisible by 400.
+    if (month === 'Feb') {
+        if (year % 4 === 0) {
+            result = true;
+        }
+        if (year % 100 === 0) {
+            result = false;
+        }
+        if (year % 400 === 0) {
+            result = true;
+        }
+    }
+    return result; // boolean
+}
+
 // Listen for button click
 var checkDateButton = document.getElementById('checkDate');
 checkDateButton.addEventListener('click', function (e) {
+    console.log('Button clicked');
     // Prevent form submission
     e.preventDefault();
 
@@ -207,7 +225,10 @@ checkDateButton.addEventListener('click', function (e) {
 
     // Do it
     btnClick();
+
+    console.log('-------');
 });
 
 // Start the first function
 assembleSelectBoxes();
+
