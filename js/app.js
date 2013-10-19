@@ -199,11 +199,11 @@ function validateDate(month, day, year) {
 
         // theValidDate = theValidDate.toString();
         // console.log('theValidDate: ' + theValidDate);
-        getWeekday(year, month, day);
+        theWeekday = getWeekday(year, month, day);
 
-        // theWeekdayToHuman = daysOfWeek[theWeekday];
+        theWeekdayToHuman = daysOfWeek[theWeekday];
 
-        document.getElementById('outputArea').innerHTML = '<p>' + theValidDate + ' was a ' + theWeekdayToHuman + '</p>';
+        document.getElementById('outputArea').innerHTML = '<p>It\'s a ' + theWeekdayToHuman + '</p>';
 
         // Add to the page
     } else {
@@ -222,12 +222,13 @@ function getWeekday(year, month, day) {
 
     var x = typeof year;
     // console.log(x);
-    console.log('running getWeekday() with data: ' + x);
+    console.log('Creating the Date with data of type: ' + x);
     console.log(year + ' - ' + month + ' - ' + day);
 
     theDate = new Date(year, month, day);
 
     theWeekday = theDate.getDay();
+    console.log('Day of week: ' + theWeekday);
     return theWeekday;
 }
 
